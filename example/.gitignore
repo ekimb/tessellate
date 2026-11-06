@@ -1,0 +1,6 @@
+*
+!.gitignore
+!simulate.py
+!truth.fa
+!ref.fa
+!read.fa

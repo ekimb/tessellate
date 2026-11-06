@@ -1,0 +1,53 @@
+[package]
+name = "tessellate"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+needletail = { version = "0.7.3", default-features = false, features = ["compression"] }
+noodles-bgzf = "0.51"
+simd-minimizers = "3"
+sucds = "0.9"
+clap = { version = "4", features = ["derive"] }
+rayon = {version = "1.12.0"}
+libsais = "0.2.0"
+quadrank = "0.2.0"
+mmap-rs = "0.7.0"
+flate2 = { version = "1.1.10", default-features = false, features = ["zlib-rs", "runtime_detection"] }
+dashmap = { version = "6.2.1", features = ["rayon", "serde"] }
+ratatui = "0.29"
+crossterm = "0.28"
+crc32fast = "1"
+itertools = "0.15.0"
+minimap2 = { version = "0.1.31", default-features = false }
+
+[build-dependencies]
+rayon = "1.12.0"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "tessellate"
+path = "src/bin/tessellate/main.rs"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+
+[profile.dev.build-override]
+opt-level = 3
+
+[profile.release.build-override]
+opt-level = 3
+
+[profile.iterative]
+inherits = "release"
+opt-level = 2
+lto = "off"
+codegen-units = 16
+incremental = true
+
+[patch.crates-io]
+quadrank = { path = "vendor/quadrank" }
